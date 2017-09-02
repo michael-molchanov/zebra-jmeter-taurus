@@ -11,6 +11,7 @@ RUN apt-get update \
   build-essential \
   curl \
   openssl \
+  procps \
   wget \
   && rm -rf /var/lib/apt/lists/*
 
