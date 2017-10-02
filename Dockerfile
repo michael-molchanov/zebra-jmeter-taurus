@@ -15,22 +15,18 @@ RUN apt-get update \
   wget \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Java.
+# Install Java, jmeter, plugins.
 ENV JAVA_HOME /usr
-RUN apt-get update \
-  && apt-get -y install openjdk-8-jre-headless maven \
-  && rm -rf /var/lib/apt/lists/*
-
-# Install JMeter.
 ENV JMETER_VERSION 3.3
 ENV JMETER_HOME=/apache-jmeter
-RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+RUN apt-get update \
+  && apt-get -y install openjdk-8-jre-headless maven \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C / -xzf /apache-jmeter.tgz \
   && rm /apache-jmeter.tgz \
-  && mv /apache-jmeter-${JMETER_VERSION} /apache-jmeter
-
-# Install plugins
-RUN curl -L -o /apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
+  && mv /apache-jmeter-${JMETER_VERSION} /apache-jmeter \
+  && curl -L -o /apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
   && curl -L -o /apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
   && java -cp /apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
   && /apache-jmeter/bin/PluginsManagerCMD.sh available \
