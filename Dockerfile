@@ -23,6 +23,7 @@ RUN apt-get update \
 
 # Install JMeter.
 ENV JMETER_VERSION 3.2
+ENV JMETER_HOME=$HOME/apache-jmeter
 RUN curl -o ~/apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C ~ -xzf ~/apache-jmeter.tgz \
   && rm ~/apache-jmeter.tgz \
