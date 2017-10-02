@@ -22,19 +22,19 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Install JMeter.
-ENV JMETER_VERSION 3.2
-ENV JMETER_HOME=$HOME/apache-jmeter
-RUN curl -o ~/apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
-  && tar -C ~ -xzf ~/apache-jmeter.tgz \
-  && rm ~/apache-jmeter.tgz \
-  && mv ~/apache-jmeter-${JMETER_VERSION} ~/apache-jmeter
+ENV JMETER_VERSION 3.3
+ENV JMETER_HOME=/apache-jmeter
+RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+  && tar -C / -xzf /apache-jmeter.tgz \
+  && rm /apache-jmeter.tgz \
+  && mv /apache-jmeter-${JMETER_VERSION} /apache-jmeter
 
 # Install plugins
-RUN curl -L -o ~/apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
-  && curl -L -o ~/apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
-  && java -cp ~/apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
-  && ~/apache-jmeter/bin/PluginsManagerCMD.sh available \
-  && ~/apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
+RUN curl -L -o /apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
+  && curl -L -o /apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
+  && java -cp /apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
+  && /apache-jmeter/bin/PluginsManagerCMD.sh available \
+  && /apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
 
 # Install Taurus.
 RUN apt-get update \
