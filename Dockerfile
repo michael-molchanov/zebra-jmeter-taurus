@@ -33,7 +33,7 @@ RUN curl -L -o ~/apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jme
   && curl -L -o ~/apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
   && java -cp ~/apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
   && ~/apache-jmeter/bin/PluginsManagerCMD.sh available \
-  && ~/apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-graphs-basic,jpgc-graphs-additional,jpgc-autostop,jpgc-sense,blazemeter-debugger,jpgc-cmd,jpgc-graphs-composite,jpgc-csl,jpgc-functions,jpgc-casutg,jpgc-dbmon,jpgc-directory-listing,jpgc-graphs-dist,jpgc-filterresults,jpgc-ffw,jpgc-ggl,jpgc-sts,jpgc-fifo,jpgc-jmxmon,jpgc-json,jpgc-graphs-vs,kafkameter,jpgc-lockfile,jpgc-mergeresults,jpgc-pde,jpgc-prmctl,jpgc-perfmon,jpgc-redis,jpgc-rotating-listener,jpgc-synthesis,jpgc-plancheck,jpgc-udp,jpgc-csvars,jpgc-xml,jpgc-standard
+  && ~/apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
 
 # Install Taurus.
 RUN apt-get update \
