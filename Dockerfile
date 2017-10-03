@@ -4,6 +4,8 @@ LABEL maintainer "Michael Molchanov <mmolchanov@adyax.com>"
 
 USER root
 
+SHELL ["bash", "-l", "-i", "-c"]
+
 # Install base.
 RUN apt-get update \
   && apt-get -y install \
@@ -30,7 +32,7 @@ RUN apt-get update \
   && curl -L -o /apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
   && java -cp /apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
   && /apache-jmeter/bin/PluginsManagerCMD.sh available \
-  && /apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
+  && /apache-jmeter/bin/PluginsManagerCMD.sh install-all-except
 
 # Install Taurus.
 RUN apt-get update \
