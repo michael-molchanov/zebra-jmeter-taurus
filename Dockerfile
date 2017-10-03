@@ -29,8 +29,9 @@ RUN apt-get update \
   && curl -L -o /apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
   && curl -L -o /apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
   && java -cp /apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
-  && /apache-jmeter/bin/PluginsManagerCMD.sh available \
-  && /apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
+  && chmod +x /apache-jmeter/bin/PluginsManagerCMD.sh \
+  && bash -l /apache-jmeter/bin/PluginsManagerCMD.sh available \
+  && bash -l /apache-jmeter/bin/PluginsManagerCMD.sh install jpgc-standard
 
 # Install Taurus.
 RUN apt-get update \
