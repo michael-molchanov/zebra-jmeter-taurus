@@ -4,8 +4,6 @@ LABEL maintainer "Michael Molchanov <mmolchanov@adyax.com>"
 
 USER root
 
-SHELL ["bash", "-l", "-i", "-c"]
-
 # Install base.
 RUN apt-get update \
   && apt-get -y install \
@@ -16,23 +14,6 @@ RUN apt-get update \
   procps \
   wget \
   && rm -rf /var/lib/apt/lists/*
-
-# Install Java, jmeter, plugins.
-ENV JAVA_HOME /usr
-ENV JMETER_VERSION 3.3
-ENV JMETER_HOME=/apache-jmeter
-RUN apt-get update \
-  && apt-get -y install openjdk-8-jre-headless maven \
-  && rm -rf /var/lib/apt/lists/* \
-  && curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
-  && tar -C / -xzf /apache-jmeter.tgz \
-  && rm /apache-jmeter.tgz \
-  && mv /apache-jmeter-${JMETER_VERSION} /apache-jmeter \
-  && curl -L -o /apache-jmeter/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
-  && curl -L -o /apache-jmeter/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
-  && java -cp /apache-jmeter/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
-  && /apache-jmeter/bin/PluginsManagerCMD.sh available \
-  && /apache-jmeter/bin/PluginsManagerCMD.sh install-all-except
 
 # Install Taurus.
 RUN apt-get update \
@@ -45,4 +26,26 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && pip install bzt
 
+# Install Java, jmeter.
+ENV JAVA_HOME /usr
+RUN apt-get update \
+  && apt-get -y install openjdk-8-jre-headless maven \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install jMeter.
+ENV JMETER_VERSION 3.3
+ENV JMETER_HOME=/apache-jmeter
+RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+  && tar -C / -xzf /apache-jmeter.tgz \
+  && rm /apache-jmeter.tgz \
+  && mv /apache-jmeter-${JMETER_VERSION} ${JMETER_HOME}
+
+# Install plugins.
+RUN curl -L -o ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
+  && curl -L -o ${JMETER_HOME}/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
+  && java -cp ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
+  && ${JMETER_HOME}/bin/PluginsManagerCMD.sh available \
+  && ${JMETER_HOME}/bin/PluginsManagerCMD.sh install-all-except
+
 ENTRYPOINT ["bzt"]
+
