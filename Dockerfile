@@ -24,7 +24,7 @@ RUN apt-get update \
   libxml2-dev \
   python-pip \
   && rm -rf /var/lib/apt/lists/* \
-  && pip install bzt
+  && pip install bzt==1.10.0
 
 # Install Java, jmeter.
 ENV JAVA_HOME /usr
