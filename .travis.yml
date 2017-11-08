@@ -28,6 +28,5 @@ before_script:
   - ls -lah
 
 script:
-  - docker build -t michaeltigr/zebra-jmeter-taurus:develop .
   - docker login --username $HUB_USERNAME --password $HUB_PASSWORD
-  - docker push michaeltigr/zebra-jmeter-taurus:develop
+  - docker build -t michaeltigr/zebra-jmeter-taurus:${TRAVIS_BRANCH}-travis . && docker push michaeltigr/zebra-jmeter-taurus:${TRAVIS_BRANCH}-travis
