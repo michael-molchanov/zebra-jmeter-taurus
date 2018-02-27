@@ -24,7 +24,7 @@ RUN apt-get update \
   libxml2-dev \
   python-pip \
   && rm -rf /var/lib/apt/lists/* \
-  && pip install bzt==1.10.4
+  && pip install bzt==1.10.5
 
 # Install Java, jmeter.
 ENV JAVA_HOME /usr
@@ -38,7 +38,10 @@ ENV JMETER_HOME=/apache-jmeter
 RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C / -xzf /apache-jmeter.tgz \
   && rm /apache-jmeter.tgz \
-  && mv /apache-jmeter-${JMETER_VERSION} ${JMETER_HOME}
+  && mv /apache-jmeter-${JMETER_VERSION} ${JMETER_HOME} \
+  && rm ${JMETER_HOME}/bin/user.properties
+
+COPY user.properties ${JMETER_HOME}/bin/
 
 # Install plugins.
 RUN curl -L -o ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
