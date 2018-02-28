@@ -33,7 +33,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Install jMeter.
-ENV JMETER_VERSION 3.3
+ENV JMETER_VERSION 4.0
 ENV JMETER_HOME=/apache-jmeter
 RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C / -xzf /apache-jmeter.tgz \
