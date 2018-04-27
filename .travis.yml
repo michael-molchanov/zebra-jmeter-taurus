@@ -28,5 +28,5 @@ before_script:
   - ls -lah
 
 script:
-  - docker login --username $HUB_USERNAME --password $HUB_PASSWORD
+  - echo "$HUB_PASSWORD" | docker login --username $HUB_USERNAME --password-stdin
   - docker build -t michaeltigr/zebra-jmeter-taurus:${TRAVIS_BRANCH}-travis . && docker push michaeltigr/zebra-jmeter-taurus:${TRAVIS_BRANCH}-travis
