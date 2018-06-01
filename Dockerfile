@@ -24,7 +24,7 @@ RUN apt-get update \
   libxml2-dev \
   python-pip \
   && rm -rf /var/lib/apt/lists/* \
-  && pip install bzt==1.10.5
+  && pip install bzt==1.11.1
 
 # Install Java, jmeter.
 ENV JAVA_HOME /usr
@@ -33,7 +33,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Install jMeter.
-ENV JMETER_VERSION 3.3
+ENV JMETER_VERSION 4.0
 ENV JMETER_HOME=/apache-jmeter
 RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C / -xzf /apache-jmeter.tgz \
@@ -45,7 +45,7 @@ COPY user.properties ${JMETER_HOME}/bin/
 
 # Install plugins.
 RUN curl -L -o ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
-  && curl -L -o ${JMETER_HOME}/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
+  && curl -L -o ${JMETER_HOME}/lib/cmdrunner-2.2.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar \
   && java -cp ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
   && ${JMETER_HOME}/bin/PluginsManagerCMD.sh available \
   && ${JMETER_HOME}/bin/PluginsManagerCMD.sh install-all-except
