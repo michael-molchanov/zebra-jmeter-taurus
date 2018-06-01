@@ -45,7 +45,7 @@ COPY user.properties ${JMETER_HOME}/bin/
 
 # Install plugins.
 RUN curl -L -o ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar -O https://jmeter-plugins.org/get/ \
-  && curl -L -o ${JMETER_HOME}/lib/cmdrunner-2.0.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar \
+  && curl -L -o ${JMETER_HOME}/lib/cmdrunner-2.2.jar http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar \
   && java -cp ${JMETER_HOME}/lib/ext/jmeter-plugins-manager.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
   && ${JMETER_HOME}/bin/PluginsManagerCMD.sh available \
   && ${JMETER_HOME}/bin/PluginsManagerCMD.sh install-all-except
