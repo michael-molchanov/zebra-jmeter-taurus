@@ -4,6 +4,11 @@ LABEL maintainer "Michael Molchanov <mmolchanov@adyax.com>"
 
 USER root
 
+# SSH config.
+RUN mkdir -p /root/.ssh
+ADD config/ssh /root/.ssh/config
+RUN chown root:root /root/.ssh/config && chmod 600 /root/.ssh/config
+
 # Install base.
 RUN apt-get update \
   && apt-get -y install \
@@ -11,6 +16,7 @@ RUN apt-get update \
   build-essential \
   curl \
   openssl \
+  openssh-client \
   procps \
   wget \
   && rm -rf /var/lib/apt/lists/*
