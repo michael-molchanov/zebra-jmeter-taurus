@@ -15,11 +15,44 @@ RUN apt-get update \
   bash \
   build-essential \
   curl \
+  jq \
   openssl \
   openssh-client \
+  python \
+  python-pip \
+  python-wheel \
   procps \
   wget \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  && pip install yq requests
+
+COPY --from=hairyhenderson/gomplate:v3.1.0-slim /gomplate /bin/gomplate
+
+# Install goofys
+ENV GOOFYS_VERSION 0.19.0
+RUN curl --fail -sSL -o goofys https://github.com/kahing/goofys/releases/download/v${GOOFYS_VERSION}/goofys \
+  && mv goofys /usr/local/bin/ \
+  && chmod +x /usr/local/bin/goofys
+
+
+# Install fd
+ENV FD_VERSION 7.3.0
+RUN curl --fail -sSL -o fd.tar.gz https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz \
+  && tar -zxf fd.tar.gz \
+  && cp fd-v${FD_VERSION}-x86_64-unknown-linux-gnu/fd /usr/local/bin/ \
+  && rm -f fd.tar.gz \
+  && rm -fR fd-v${FD_VERSION}-x86_64-unknown-linux-gnu \
+  && chmod +x /usr/local/bin/fd
+
+# Install variant
+ENV VARIANT_VERSION 0.29.0
+RUN curl --fail -sSL -o variant.tar.gz https://github.com/mumoshu/variant/releases/download/v${VARIANT_VERSION}/variant_${VARIANT_VERSION}_linux_amd64.tar.gz \
+    && mkdir -p variant \
+    && tar -zxf variant.tar.gz -C variant \
+    && cp variant/variant /usr/local/bin/ \
+    && rm -f variant.tar.gz \
+    && rm -fR variant \
+    && chmod +x /usr/local/bin/variant
 
 # Install Taurus.
 RUN apt-get update \
@@ -30,7 +63,7 @@ RUN apt-get update \
   libxml2-dev \
   python-pip \
   && rm -rf /var/lib/apt/lists/* \
-  && pip install bzt==1.13.2
+  && pip install bzt==1.13.7
 
 # Install Java, jmeter.
 ENV JAVA_HOME /usr
@@ -39,7 +72,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Install jMeter.
-ENV JMETER_VERSION 5.0
+ENV JMETER_VERSION 5.1.1
 ENV JMETER_HOME=/apache-jmeter
 RUN curl -o /apache-jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
   && tar -C / -xzf /apache-jmeter.tgz \
