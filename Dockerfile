@@ -15,6 +15,8 @@ RUN apt-get update \
   bash \
   build-essential \
   curl \
+  git-core \
+  language-pack-en-base \
   jq \
   openssl \
   openssh-client \
@@ -22,7 +24,9 @@ RUN apt-get update \
   python-pip \
   python-wheel \
   procps \
+  software-properties-common \
   wget \
+  && locale-gen en_US.UTF-8 \
   && rm -rf /var/lib/apt/lists/* \
   && pip install yq requests
 
