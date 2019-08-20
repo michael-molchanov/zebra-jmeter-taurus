@@ -68,7 +68,7 @@ RUN apt-get update \
   python-pip \
   python3-pip \
   && rm -rf /var/lib/apt/lists/* \
-  && pip3 install bzt==1.13.7
+  && pip3 install bzt==1.13.8
 
 # Install Java, jmeter.
 ENV JAVA_HOME /usr
